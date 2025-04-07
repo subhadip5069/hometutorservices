@@ -1,0 +1,792 @@
+<%- include('layout/navbar') %>
+<%- include('layout/header') %>
+
+
+<!-- main section -->
+<style>
+    /* * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: Arial, sans-serif;
+    } */
+
+    .account-page {
+        background-color: #ffffff;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        
+    }
+
+    .profile-container {
+        width: 95%;
+        max-width: 800px;
+        background: rgb(255, 255, 255);
+        /* padding: 20px; */
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+        min-height: 655px;
+    }
+
+    .profile-tabs {
+        display: flex;
+        justify-content: space-around;
+        background: #004080;
+        padding: 10px;
+        border-radius: 8px 8px 0 0;
+    }
+
+    .profile-tab-button {
+        flex: 1;
+        text-align: center;
+        padding: 10px;
+        color: white;
+        font-size: 16px;
+        cursor: pointer;
+        border: none;
+        background: transparent;
+    }
+
+    .profile-tab-button.active {
+        background: #0066cc;
+        border-radius: 5px;
+    }
+
+    .profile-tab-content {
+        display: none;
+        
+    }
+
+    .profile-tab-content.active {
+        display: block;
+    }
+
+    .profile-myprofile-section {
+            width: 100%;
+            max-width: 900px;
+            background: rgb(255, 255, 255);
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .profile-myprofile-header {
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 12px;
+            color: #754c24;
+            
+        }
+
+        .profile-myprofile-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: flex-start;
+            padding: 20px;
+            border: 1px solid #ccc;
+            background-color: #ffffff;
+        }
+
+        .profile-myprofile-table {
+            flex: 1;
+           
+        }
+
+        .profile-myprofile-row {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+        .profile-myprofile-item {
+            width: 48%;
+            display: flex;
+            flex-direction: row;
+            font-size: 20px;
+            gap: 10px;
+        }
+
+        .profile-myprofile-item label {
+            font-weight: bold;
+        }
+
+        .profile-myprofile-changes {
+            display: flex;
+            justify-content: space-between;
+            text-align: center;
+
+            padding: 10px;
+            flex-basis: 100%;
+            margin-bottom: 3%;
+        }
+
+        .profile-myprofile-changes button {
+            padding: 9px 12px;
+            align-self: center;
+        }
+
+        .profile-myprofile-changes img {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+        }
+
+        .profile-myprofile-name {
+            font-weight: bold;
+            margin: 10px 0;
+        }
+
+        .profile-myprofile-edit {
+            background-color: #ffc107;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        /* tuition-info */
+        .tuition-info-section {
+  width: 97%;
+  /* max-width: 800px; */
+  margin: 20px auto;
+  /* padding: 10px; */
+  /* font-family: Arial, sans-serif; */
+}
+
+
+.tuition-info-title {
+    text-align: center;
+    font-size: 3vh;
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: #754c24;
+    font-family: Arial, sans-serif;
+    border: 1px solid #ccc;
+  padding: 15px;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+}
+
+.tuition-info-box {
+  border: 1px solid #ccc;
+  padding: 15px;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+}
+
+.tuition-info-header {
+  background-color: #325b81;
+  color: #fff;
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+  border-radius: 3px;
+  margin-bottom: 15px;
+  font-weight: bold;
+}
+
+.tuition-info-details {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 20px;
+  margin-bottom: 15px;
+  color: #555;
+}
+
+.tuition-info-detail-item {
+  width: calc(33.333% - 20px);
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  gap: 6px;
+}
+
+.tuition-info-icon {
+  margin-right: 5px;
+}
+
+.tuition-info-description {
+  border: 1px solid #ccc;
+  padding: 10px;
+  margin-bottom: 15px;
+  background-color: #fff;
+  border-radius: 3px;
+}
+
+.tuition-info-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.tuition-info-btn {
+  padding: 8px 12px;
+  border: none;
+  background-color: #ddd;
+  cursor: pointer;
+  border-radius: 3px;
+  font-size: 14px;
+}
+
+.tuition-info-btn:hover {
+  background-color: #ccc;
+}
+
+.tuition-info-edit {
+  background-color: #ffc107;
+  color: #fff;
+}
+
+.tuition-info-edit:hover {
+  background-color: #084bff;
+}
+
+/* Account-info */
+
+.account-info-section {
+  width: 97%;
+  /* max-width: 650px; */
+  margin: 20px auto;
+  font-family: Arial, sans-serif;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.account-info-box {
+  border: 1px solid #ccc;
+  padding: 15px;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+}
+
+.account-info-heading {
+  font-size: 18px;
+  margin-bottom: 15px;
+  color: #8b5c18;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.account-info-membership {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.account-info-type-label {
+  font-size: 14px;
+  color: #555;
+}
+
+.account-info-type-status {
+  background-color: #dff0ff;
+  padding: 5px 10px;
+  border-radius: 15px;
+  font-size: 12px;
+  color: #555;
+}
+
+.account-info-btn {
+  padding: 8px 12px;
+  border: none;
+  background-color: #ffc107;
+  color: #fff;
+  border-radius: 3px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.account-info-btn:hover {
+  background-color: #ffc107;
+}
+
+.account-info-credits {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.account-info-credit-item {
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+  color: #555;
+}
+
+.account-info-link {
+  font-size: 14px;
+  color: #007bff;
+  text-decoration: none;
+}
+
+.account-info-link:hover {
+  text-decoration: underline;
+}
+
+
+
+        @media (max-width: 600px) {
+            .profile-myprofile-row {
+                flex-direction: column;
+            }
+            .profile-myprofile-item {
+                width: 100%;
+            }
+            /* .profile-myprofile-changes {
+                flex-basis: auto;
+            } */
+            /* .tuition-info-details {
+                display: flex;
+                flex-direction: column;
+            } */
+            .tuition-info-detail-item {
+                width: 100%;
+                font-size: 15px;
+            }
+            .tuition-info-actions {
+                justify-content: center;
+            }
+            .tuition-info-box{
+                padding: 7px;
+            }
+        }
+</style>
+
+<div class="account-page">
+        <div class="profile-container">
+            <div class="profile-tabs">
+              <button type="button" class="profile-tab-button active" onclick="showTab('profile-tuitions')">
+                <% if (requirement && requirement.userId) { %>
+                  <% if (requirement.userId.role == 'tutor') { %> 
+                      Tuitions 
+                  <% } else { %> 
+                      Tutor 
+                  <% } %>
+              <% } else { %>
+                  Tutor <!-- Default text if requirement is undefined -->
+              <% } %>
+              
+            </button>
+            
+                <button class="profile-tab-button" onclick="showTab('profile-profile')">My Profile</button>
+                <button class="profile-tab-button" id="acc" onclick="showTab('profile-account')">Account Info</button>
+            </div>
+
+            <div id="profile-tuitions" class="profile-tab-content active">
+              <div class="tuition-info-section">
+                <% if (requirement.userId.role == 'tutor') { %>
+                  <h3 class="text-center" style="font-size: 20px; font-weight: bold; color: #007bff; margin-bottom: 15px;">📚 My Tuitions</h3>
+                <% } else { %>
+                  <h3 class="text-center" style="font-size: 20px; font-weight: bold; color: #007bff; margin-bottom: 15px;">👨‍🏫 My Tutor</h3>
+                <% } %>
+          
+                  <% if (orders.length > 0) { %>
+                      <% orders.forEach(order => { %>
+                          <div class="tuition-info-box" style="border: 1px solid #007bff; padding: 12px; border-radius: 8px; margin-bottom: 12px; background: #f9f9f9; box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);">
+                              <div class="tuition-info-header" style="display: flex; justify-content: space-between; align-items: center;">
+                                  <span style="font-weight: bold; font-size: 15px; color: #333;">🔖 
+                                      <span style="color: #d9534f;"><%= order.userId.randomId || 'N/A' %></span> : 
+                                      Wanted home tutor for <span style="color: #5bc0de;"><%= order.subject || 'N/A' %></span>
+                                  </span>
+                              </div>
+          
+                              <div class="tuition-info-details" style="margin-top: 10px; font-size: 15px; line-height: 1.4; color: #555;">
+                                  <p><strong>👤 Name:</strong> <span style="color: #0275d8;"><%= order.userId.name || 'N/A' %></span></p>
+                                  <p><strong>📧 Email:</strong> <span style="color: #5bc0de;"><%= order.userId.email || 'N/A' %></span></p>
+                                  <p><strong>📍 Location:</strong> <span style="color: #5cb85c;"><%= order.tuitionLocation || 'N/A' %></span></p>
+                                  <p><strong>⏰ Preferred Time:</strong> <span style="color: #f0ad4e;"><%= order.preferredTime || 'AnyTime' %></span></p>
+                                  <p><strong>🌎 State:</strong> <span style="color: #d9534f;"><%= order.state || 'N/A' %></span></p>
+                                  <p><strong>🏙️ City:</strong> <span style="color: #5bc0de;"><%= order.city || 'N/A' %></span></p>
+                                  <p><strong>📚 Subject:</strong> <span style="color: #0275d8;"><%= order.subject || 'N/A' %></span></p>
+                                  <p><strong>📚 Class:</strong> <span style="color: #f0ad4e;"><%= order.class || 'N/A' %></span></p>
+                                  <p><strong>📞 Phone:</strong> <span style="color: #28a745; font-weight: bold;"><%= order.userId.phone %></span></p>
+                              </div>
+                          </div>
+                      <% }) %>
+                  <% } else { %>
+                      <p style="font-size: 15px; color: #d9534f; text-align: center; font-weight: bold;">🚫 No tuition orders found.</p>
+                  <% } %>
+          
+                  <!-- Pagination Section -->
+                  <% if (totalPages > 1) { %>
+                      <nav aria-label="Page navigation">
+                          <ul class="pagination" style="margin-top: 15px; display: flex; justify-content: center; gap: 4px;">
+                              <!-- Previous Button -->
+                              <% if (currentPage > 1) { %>
+                                  <li class="page-item">
+                                      <a class="page-link" href="?page=<%= currentPage - 1 %>&limit=<%= limit %>" 
+                                         onclick="changePage(event, <%= currentPage - 1 %>)" 
+                                         style="color: #007bff; font-weight: bold; padding: 6px 10px;">« Previous</a>
+                                  </li>
+                              <% } else { %>
+                                  <li class="page-item disabled">
+                                      <span class="page-link" style="padding: 6px 10px;">« Previous</span>
+                                  </li>
+                              <% } %>
+          
+                              <!-- Page Numbers -->
+                              <% for (let i = 1; i <= totalPages; i++) { %>
+                                  <li class="page-item <%= (i == currentPage) ? 'active' : '' %>" style="margin: 0;">
+                                      <a class="page-link" href="?page=<%= i %>&limit=<%= limit %>" onclick="changePage(event, <%= i %>)"
+                                         style="padding: 6px 10px; border-radius: 6px; font-weight: bold;
+                                                <%= (i == currentPage) ? 'background-color: #007bff; color: white;' : 'color: #007bff;' %>">
+                                          <%= i %>
+                                      </a>
+                                  </li>
+                              <% } %>
+          
+                              <!-- Next Button -->
+                              <% if (currentPage < totalPages) { %>
+                                  <li class="page-item">
+                                      <a class="page-link" href="?page=<%= currentPage + 1 %>&limit=<%= limit %>" 
+                                         onclick="changePage(event, <%= currentPage + 1 %>)" 
+                                         style="color: #007bff; font-weight: bold; padding: 6px 10px;">Next »</a>
+                                  </li>
+                              <% } else { %>
+                                  <li class="page-item disabled">
+                                      <span class="page-link" style="padding: 6px 10px;">Next »</span>
+                                  </li>
+                              <% } %>
+                          </ul>
+                      </nav>
+                  <% } %>
+              </div>
+          </div>
+          
+          
+          
+          
+            <div id="profile-profile" class="profile-tab-content">
+                <section class="profile-myprofile-section">
+                    <% if (requirement) { %>
+                      <% if (requirement.userId.role === 'student') { %>
+                        <div class="profile-myprofile-table">
+                            <div class="profile-myprofile-row" style="display: flex; justify-content: space-between; align-items: center; padding: 10px; border: 1px solid #ddd; border-radius: 8px; background: #f9f9f9;">
+                                <div class="profile-myprofile-item" style="flex: 1;">
+                                    <label style="font-weight: bold; font-size: 16px;">Your Current Requirment Status:</label>
+                                    <span id="status-label" style="font-size: 16px; font-weight: bold; color: <%= requirement.status === 'active' ? '#28a745' : '#dc3545' %>;">
+                                        <%= requirement.status %>
+                                    </span>
+                                </div>
+                                <div class="profile-myprofile-item" style="flex: 1; display: flex; justify-content: flex-end;">
+                                    <% if (requirement.status === 'active') { %>
+                                        <button id="status-toggle-btn" class="btn"
+                                            style="padding: 8px 16px; font-size: 14px; border-radius: 5px; border: none; cursor: pointer;
+                                                background-color: #dc3545; color: white;"
+                                            data-id="<%= requirement._id %>">
+                                            Deactivate
+                                        </button>
+                                    <% } else { %>
+                                        <button class="btn" disabled
+                                            style="padding: 8px 16px; font-size: 14px; border-radius: 5px; border: none; background-color: #ccc; color: white; cursor: not-allowed;">
+                                            Inactive
+                                        </button>
+                                    <% } %>
+                                </div>
+                            </div>
+                        </div>
+                    
+                        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+                        <script>
+                            $(document).ready(function() {
+                                $("#status-toggle-btn").click(function() {
+                                    let id = $(this).data("id");
+                    
+                                    $.ajax({
+                                        url: `/requirment/updatedtuition/${id}`,
+                                        type: "POST",
+                                        data: { status: "Inactive" },
+                                        success: function(response) {
+                                            $("#status-label").text("Inactive").css("color", "#dc3545");
+                    
+                                            // Disable button and change appearance
+                                            $("#status-toggle-btn")
+                                                .text("Inactive")
+                                                .prop("disabled", true)
+                                                .css({
+                                                    "background-color": "#ccc",
+                                                    "cursor": "not-allowed"
+                                                });
+                    
+                                            alert("your requirement is not showing"); // Show success message
+                                        },
+                                        error: function() {
+                                            alert("Error updating status. Please try again.");
+                                        }
+                                    });
+                                });
+                            });
+                        </script>
+                    <% } %>
+                    
+                    
+                    
+                        
+                    <div class="tuition-info-title"><%= requirement.userId.name %>/Profile Id: <%= requirement.userId.randomId %>[<%= requirement.userId.role.charAt(0).toUpperCase() + requirement.userId.role.slice(1).toLowerCase() %>] </div>
+                      <div class="container mt-4 p-4 shadow rounded" style="background: #fff;">
+                        <div class="text-center mb-4">
+                          <% if (requirement.userId.role == 'tutor') { %>
+                            
+                          <img src="<%= user.profileImage %>" alt="Profile Picture" class="rounded-circle" style="width: 120px; height: 120px; object-fit: cover;">
+                          <% } else { %>
+                            <img src="/user/images/profile.png" alt="Profile Picture" class="rounded-circle" style="width: 120px; height: 120px; object-fit: cover;">
+                          <% } %>
+                            <h4 class="mt-2"><%= requirement.userId.name.toUpperCase() %></h4>
+                            <a href="/updatereg/<%= requirement._id %>" class="btn btn-primary mt-2">Edit Profile</a>
+                        </div>
+                    
+                        <div class="row">
+                            <!-- Left Column -->
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="fw-bold">First Name:</label>
+                                    <p class="text-muted"><%= requirement.userId.name %></p>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="fw-bold">Email:</label>
+                                    <p class="text-muted"><%= requirement.userId.email %></p>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="fw-bold">Gender:</label>
+                                    <p class="text-muted"><%= requirement.preferredTutor || "N/A" %></p>
+                                </div>
+                                <% if (requirement.age) { %>
+                                <div class="mb-3">
+                                    <label class="fw-bold">Age:</label>
+                                    <p class="text-muted"><%= requirement.age %></p>
+                                </div>
+                                <% } %>
+                            </div>
+                    
+                            <!-- Right Column -->
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="fw-bold">City:</label>
+                                    <p class="text-muted"><%= requirement.city || "N/A" %></p>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="fw-bold">Locality:</label>
+                                    <p class="text-muted"><%= requirement.locality %></p>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="fw-bold">State:</label>
+                                    <p class="text-muted"><%= requirement.state ? requirement.state.charAt(0).toUpperCase() + requirement.state.slice(1).toLowerCase() : "N/A" %></p>
+                                </div>
+                            </div>
+                        </div>
+                    
+                        <!-- Tuition Details -->
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="fw-bold">Tuition Location:</label>
+                                    <p class="text-muted"><%= requirement.tuitionLocation && requirement.tuitionLocation.length > 0 ? requirement.tuitionLocation.join(', ') : "N/A" %></p>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="fw-bold">Pincode:</label>
+                                    <p class="text-muted"><%= requirement.pincode || "N/A" %></p>
+                                </div>
+                            </div>
+                        </div>
+                    
+                        <!-- Subject & Class -->
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="fw-bold">Subject:</label>
+                                    <p class="text-muted"><%= requirement.subject || "N/A" %></p>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="fw-bold">Class:</label>
+                                    <p class="text-muted"><%= requirement.class || "N/A" %></p>
+                                </div>
+                            </div>
+                        </div>
+                    
+                        <!-- Qualification & Experience (Only for Tutors) -->
+                        <% if (requirement.userId.role == 'tutor') { %>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="fw-bold">Qualification:</label>
+                                    <p class="text-muted"><%= requirement.qualification || "N/A" %></p>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="fw-bold">Experience:</label>
+                                    <p class="text-muted"><%= requirement.experience ? requirement.experience + " years" : "N/A" %></p>
+                                </div>
+                            </div>
+                        </div>
+                        <% } %>
+                    
+                        <!-- Preferred Time -->
+                        <div class="mb-3">
+                            <label class="fw-bold">Preferred Time:</label>
+                            <p class="text-muted"><%= requirement.preferredTime && requirement.preferredTime.length > 0 ? requirement.preferredTime.join(', ') : "N/A" %></p>
+                        </div>
+                    </div>
+                    
+                    <section class="about-section mt-4">
+                      <% if (requirement.userId.role == 'tutor') { %>
+                        <div class="container">
+                          <h5>About Me</h5>
+                          <p>
+                            <%= requirement.about ? requirement.about : "N/A" %>
+                          </p>
+                        </div>
+                        <% } else if (requirement.userId.role == 'student') { %>
+                      <div class="container">
+                          <h5>About Me</h5>
+                          <p> "Hi i am a student looking for a home tutor from my city <%= requirement.city  %>, and locality <%= requirement.pincode  %> and i need help with multiple subjects for class <%= requirement.class || 'N/A' %> and i prefer <%= requirement.preferredTime || 'Anytime' %> for tuition sessions</p>
+                      </div>
+                      <% } %>
+                  </section>
+                    <% } else if(user) { %>
+                      <div class="tuition-info-title">
+                          <h2>Profile Details</h2>
+                          <div class="profilepicture">
+                            <img src="/<%= user.profilePicture || '/user/images/profile.png' %>" style="height: 100px;" class="img-fluid rounded-circle" alt="">
+                          </div>
+                          <a href="/updatereg/<%= user._id %>">
+                              <button class="btn btn-primary">Add Details</button>
+                          </a>
+                          <p><%= user.name %> || <%= user.randomId %></p>
+
+                      </div>
+
+                        
+                      <% } else{ %>
+                      
+                        <div class="tuition-info-title">
+                          <h2>Profile</h2>
+                      </div>
+                      <div class="tuition-info-content">
+                          <p>You are not logged in. Please log in to view your profile.</p>
+                          <a class="btn btn-primary" href="/login">login</a>
+                          <a class="btn btn-success" href="/register"> Register</a>
+                      </div>
+                      <% } %>
+                      
+                </section>
+            </div>
+
+            <div id="profile-account" class="profile-tab-content">
+                <div class="account-info-section">
+                    <!-- Membership Details -->
+                    <div class="account-info-box">
+                      <h3 class="account-info-heading">Membership Details</h3>
+                      
+                      <!-- Free Membership Section -->
+                      <div class="account-info-membership free-membership">
+                        <span class="account-info-type-label">Membership Type</span>
+                        <% if(user && user.unlockedContactsRemaining >0 ){ %>
+                          <span class="account-info-type-status">Premium</span>
+                          <%} else  {%>
+                        <span class="account-info-type-status">FREE</span>
+                        <% }%>
+                      </div>
+                      <a href="/primum" class="account-info-btn">Upgrade to Premium</a>
+                    </div>
+                    
+                    <% if (plans) { %>
+                        <div class="card shadow rounded-4" style="padding: 20px; background: linear-gradient(135deg, #a9f2fc,#a9d0fd, #e68d8d); border-left: 8px solid #001a4b;">
+                            <div class="card-body text-center">
+                              <h4 class="card-title fw-bold mb-3 text-primary">
+                                Plan Details
+                                <hr style="border-top: 2px solid #00bcd4; width: 50%; margin: 10px auto;">
+                              </h4>
+                              
+                              <ul class="list-unstyled text-start mb-4" style="color: #333;">
+                                <li style="margin-bottom: 10px;">
+                                  🎉 <strong style="color: #00796b;">Plan Name:</strong>
+                                  <strong><%= plans.planId.planName %></strong>
+                                </li>
+                                <li style="margin-bottom: 10px;">
+                                  🕒 <strong style="color: #00796b;">Validity:</strong>
+                                  <strong><%= plans.planId.validity %> Days</strong>
+                                </li>
+                                <li style="margin-bottom: 10px;">
+                                  🔓 <strong style="color: #00796b;">Unlock Users:</strong>
+                                  <strong><%= plans.planId.unlockUserCount %></strong>
+                                </li>
+                                <li style="margin-bottom: 10px;">
+                                  💰 <strong style="color: #00796b;">Price:</strong>
+                                  <strong>₹ <%= plans.planId.price %></strong>
+                                </li>
+                              </ul>
+                            </div>
+                          </div>
+                          
+                        
+                    
+                  <% if(user){ %>
+                    <!-- Contact Credits -->
+                    <div class="account-info-box">
+                      <h3 class="account-info-heading">Contact Credits</h3>
+                      <div class="account-info-credits">
+                        <div class="account-info-credit-item">
+                          <span>Plan Name:</span>
+                          <span><%= plans.planId.planName %></span>
+                        </div>
+                        <div class="account-info-credit-item">
+                          <span>Total:</span>
+                          <span><%= user.unlockedContacts %> </span>
+                        </div>
+                        <div class="account-info-credit-item">
+                          <span>Available:</span>
+                          <span><%= user.unlockedContactsRemaining %></span>
+                        </div>
+                        <div class="account-info-credit-item">
+                          <span>Used:</span>
+                          <span><%= user.unlockedContacts - user.unlockedContactsRemaining %></span>
+                        </div>                        
+                      </div>
+                    </div>
+                    <% }%>
+                    <% } %>
+                  
+                    <!-- Change Password -->
+                    <div class="account-info-box">
+                      <h3 class="account-info-heading">Account Settings</h3>
+                      <a href="/changepassword" class="account-info-link">Change Password</a>
+                    </div>
+                  </div>
+                  
+            </div>
+        </div>
+</div>
+
+<script>
+function showTab(tabId, event) {
+  if (event) event.preventDefault(); // Prevents page refresh
+
+  document.querySelectorAll('.profile-tab-content').forEach(tab => tab.classList.remove('active'));
+  document.querySelectorAll('.profile-tab-button').forEach(button => button.classList.remove('active'));
+
+  document.getElementById(tabId).classList.add('active');
+  document.querySelector(`[onclick="showTab('${tabId}')"]`).classList.add('active');
+}
+function changePage(event, pageNumber) {
+    event.preventDefault(); // Prevent default link behavior
+    // Fetch new page content dynamically using AJAX or replace `window.location.href`
+    window.location.href = `?page=${pageNumber}&limit=<%= limit %>`;
+}
+</script>
+<div style="height: 10vh;">
+
+</div>
+<%- include('layout/footer') %>

@@ -1,0 +1,149 @@
+<%- include('partial/header') %>
+
+<div style="height: 10vh;"></div>
+
+<section class="container min-vh-100">
+    <h2 class="text-center mb-4">Inactive Registrations with Documents</h2>
+
+    <!-- Search Bar -->
+    <div class="mb-3">
+        <input type="text" id="searchInput" class="form-control" placeholder="Search by any field...">
+    </div>
+    <div class="table-responsive" style="max-height: 700px; overflow-y: auto; overflow-x: auto; white-space: nowrap;">
+        <table class="table table-bordered table-striped text-center" style="min-width: 1200px;">
+            <thead class="table-dark" style="position: sticky; top: 0; z-index: 10;">
+                <tr>
+                    <th>Name</th>
+                    <th>ID</th>
+                    <th>Email</th>
+                    <th>Subject</th>
+                    
+                    <th>Location</th>
+                    <th>Class</th>
+                    <th>About</th>
+                    <th>Document Status</th>
+                    <th>Files</th>
+                </tr>
+            </thead>
+            <tbody id="registrationsTableBody">
+                <% registrations.reverse().forEach(registration => { %>
+                    <tr>
+                        <td>
+                            <%= registration.userId ? registration.userId.name : "N/A" %> 
+                            <span class="badge bg-danger">Inactive</span>
+                        </td>
+                        <td><%= registration.userId ? registration.userId.randomId : "N/A" %></td>
+                        <td><%= registration.userId ? registration.userId.email : "N/A" %></td>
+
+                        <td><%= registration.subject || "N/A" %></td>
+                        <td><%= registration.tuitionLocation?.length ? registration.tuitionLocation.join(", ") : "N/A" %></td>
+                        <td><%= registration.class || "N/A" %></td>
+                        <td><%= registration.about || "N/A" %></td>
+                        
+
+                        <!-- Document Verification Status -->
+                        <td>
+                            <form action="/admin/documentverification/update/<%= registration._id %>?page=<%= currentPage %>" method="POST">
+                                <div class="form-check form-switch">
+                                    <input class="form-check-input" type="checkbox" name="status" value="active" 
+                                        <%= registration.documentVerificationStatus === "active" ? "checked" : "" %>
+                                        onchange="this.form.submit()">
+                                    <label class="form-check-label">
+                                        <%= registration.documentVerificationStatus === "active" ? "Active" : "Inactive" %>
+                                    </label>
+                                </div>
+                            </form>
+                        </td>
+
+                        <!-- Attached Files -->
+                       
+                            <td>
+                                <% if (registration.attachedFiles.length > 0) { %>
+                                    <button class="btn btn-sm btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#files<%= registration._id %>">
+                                        View Files
+                                    </button>
+                                    <div class="collapse mt-2" id="files<%= registration._id %>">
+                                        <ul class="list-group">
+                                            <% if (registration.attachedFiles && registration.attachedFiles.length > 0) { %>
+                                                <% registration.attachedFiles.forEach(file => { %>
+                                                    <li class="list-group-item">
+                                                        <strong>File Type:</strong> <%= file.fileType %> <br>
+                                                        
+                                                        <% 
+                                                            const fileName = file.filePath.replace(/\\/g, '/').split('/').pop();
+                                                            const fileExt = fileName.split('.').pop().toLowerCase();
+                                                            const isImage = ["jpg", "jpeg", "png", "webp", "gif", "bmp", "tiff", "svg", "ico"].includes(fileExt);
+                                                        %>
+                                        
+                                                        <% if (isImage) { %>
+                                                            <img src="/uploads/<%= fileName %>" 
+                                                                 alt="Document" class="img-fluid preview-image" style="max-width: 150px; max-height: 150px;">
+                                                        <% } else { %>
+                                                            <a href="/uploads/<%= fileName %>" target="_blank">
+                                                                <i class="fas fa-file-alt"></i> Download File
+                                                            </a>
+                                                        <% } %>
+                                                    </li>
+                                                <% }); %>
+                                            <% } else { %>
+                                                <li class="list-group-item">No files attached.</li>
+                                            <% } %>
+                                        </ul>
+                                        
+                                    </div>
+                                <% } else { %>
+                                    <p class="text-muted">No attached files</p>
+                                <% } %>
+                            </td>
+                        
+                        
+                    </tr>
+                <% }); %>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Pagination -->
+    <% if (totalPages > 1) { %>
+        <nav aria-label="Page navigation">
+            <ul class="pagination justify-content-center mt-4">
+                <% if (currentPage > 1) { %>
+                    <li class="page-item">
+                        <a class="page-link" href="?page=<%= currentPage - 1 %>">Previous</a>
+                    </li>
+                <% } %>
+                <% for (let i = 1; i <= totalPages; i++) { %>
+                    <li class="page-item <%= i === currentPage ? 'active' : '' %>">
+                        <a class="page-link" href="?page=<%= i %>"><%= i %></a>
+                    </li>
+                <% } %>
+                <% if (currentPage < totalPages) { %>
+                    <li class="page-item">
+                        <a class="page-link" href="?page=<%= currentPage + 1 %>">Next</a>
+                    </li>
+                <% } %>
+            </ul>
+        </nav>
+    <% } %>
+
+    <div style="height: 50px; background-color: transparent;"></div>
+</section>
+
+<script>
+    document.getElementById("searchInput").addEventListener("input", function () {
+        let filter = this.value.toLowerCase();
+        let rows = document.querySelectorAll("#registrationsTableBody tr");
+
+        rows.forEach(row => {
+            let found = false;
+            row.querySelectorAll("td").forEach(td => {
+                if (td.innerText.toLowerCase().includes(filter)) {
+                    found = true;
+                }
+            });
+            row.style.display = found ? "" : "none";
+        });
+    });
+</script>
+
+<%- include('partial/footer') %>

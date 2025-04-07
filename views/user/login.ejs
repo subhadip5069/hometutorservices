@@ -1,0 +1,330 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <meta name="description" content="">
+        <meta name="author" content="">
+
+        <title><%= title %></title>
+        <link rel="icon" type="images/x-icon" href="/user/images/logo.jpg">
+        <!-- CSS FILES -->        
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+        <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700&family=Open+Sans&display=swap" rel="stylesheet">
+                        
+        <link href="/user/css/bootstrap.min.css" rel="stylesheet">
+
+        <link href="/user/css/bootstrap-icons.css" rel="stylesheet">
+
+        <link href="/user/css/templatemo-topic-listing.css" rel="stylesheet">
+<!--
+
+TemplateMo 590 topic listing
+
+
+
+-->
+    </head>
+    
+    <body class="topics-listing-page" id="top">
+
+       
+
+           
+        <nav class="navbar navbar-expand-lg">
+            <div class="container">
+                <a class="navbar-brand" href="/">
+                    
+                    <img src="/user/images/logo.jpg" style="height:100px; border-radius:50px;" alt="logo">
+                   
+
+                </a>
+        
+                <!-- Mobile Profile Icon -->
+                <div class="d-lg-none ms-auto me-4">
+                    <% if (userId && userId !== "null" && userId !== "undefined") { %>
+                        <a href="/myprofile" class="navbar-icon bi-person smoothscroll"></a>
+                    <% } else { %>
+                        <a href="/login" class="navbar-icon bi-person smoothscroll"></a>
+                    <% } %>
+                </div>
+        
+                <!-- Navbar Toggler -->
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+        
+                <!-- Navbar Links -->
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ms-lg-5 me-lg-auto">
+                        <li class="nav-item">
+                            <a class="nav-link click-scroll" href="/#section_1">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link click-scroll" href="/howItworks">How it works</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link click-scroll" href="/#section_3">Review</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link click-scroll" href="/#section_4">FAQs</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="
+/listingoftutor?page=1
+">I NEED A TUTOR</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/listingofstudent">TUTION
+
+</a>
+                        </li>
+        
+                        <!-- Dropdown Menu -->
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" id="navbarLightDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">More</a>
+                            <ul class="dropdown-menu dropdown-menu-light" aria-labelledby="navbarLightDropdownMenuLink">
+                                <li><a class="dropdown-item" href="/register">Signup</a></li>
+                                <li><a class="dropdown-item" href="/terms&condition">Terms & <br> Conditions</a></li>
+                                <li><a class="dropdown-item" href="/privacypolicy">Privacy Policy</a></li>
+                                <li><a class="dropdown-item" href="/primum">Pricing</a></li>
+        
+                                <% if (userId && userId !== "null" && userId !== "undefined") { %>
+                                    <li class="dropdown-item d-lg-none">
+                                        <a class="btn btn-danger" href="/auth/logout">Logout</a>
+                                    </li>
+                                <% } else { %>
+                                    <li class="dropdown-item d-lg-none">
+                                        <a class="btn" style="color: rgb(0, 0, 0); background-color: #ffc107;" href="/login">Login</a>
+                                    </li>
+                                    <li class="dropdown-item d-lg-none">
+                                        <a class="btn" style="color: rgb(0, 0, 0); background-color: #55ff07;" href="/register">Register</a>
+                                    </li>
+                                <% } %>
+                            </ul>
+                        </li>
+                    </ul>
+        
+                    <!-- Desktop View: Profile and Auth Buttons -->
+                    <ul class="navbar-nav">
+                        <% if (userId && userId !== "null" && userId !== "undefined") { %>
+                            <li class="nav-item d-none d-lg-block">
+                                <a href="/myprofile" class="navbar-icon bi-person smoothscroll"></a>
+                            </li>
+                            <li class="nav-item d-none d-lg-block">
+                                <a class="btn btn-danger ms-2" href="/auth/logout">Logout</a>
+                            </li>
+                        <% } else { %>
+                            <li class="nav-item d-none d-lg-block">
+                                <a href="/login" class="navbar-icon bi-person smoothscroll"></a>
+                            </li>
+                            <li class="nav-item d-none d-lg-block">
+                                <a class="btn ms-2" style="color: rgb(0, 0, 0); background-color: #ffc107;" href="/login">Login</a>
+                            </li>
+                            <li class="nav-item d-none d-lg-block">
+                                <a class="btn ms-2" style="color: rgb(0, 0, 0); background-color: #55ff07;" href="/register">Register</a>
+                            </li>
+                        <% } %>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+           
+         <main class="container-fluid" style="height: 100%;backdrop-filter: blur(10px); background-image: url('/user/loginbackgorunds.jpg'); background-size: cover; background-position: center; background-attachment: fixed; background-repeat: no-repeat;">
+            <div style="height: 10vh;">
+
+            </div>
+            <section class="container-fluid d-flex align-items-center justify-content-center " >
+                
+                
+                <div id="login" class="container d-flex align-items-center justify-content-center" style="min-height: 100vh;">
+                    <div class="card p-0 shadow-lg w-100 mt-4" style="max-width: 600px; border-radius: 10px;">
+                        <div class="card-body">
+                            <h2 class="text-center">Login <hr> </h2>
+                
+                            <!-- Flash Messages -->
+                            <div class="container mt-3">
+                                <% if (message) { %>
+                                    <div class="alert alert-<%= message.type %> alert-dismissible fade show" role="alert">
+                                        <%= message.text %>
+                                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                    </div>
+                                <% } %>
+                            </div>
+                
+                            <!-- Login Form -->
+                            <form action="/auth/login" method="POST" class="mt-4">
+                                <div class="form-group mb-3">
+                                    <label for="email">Email</label>
+                                    <input type="email" class="form-control" name="email" id="email" placeholder="Enter your email" required>
+                                </div>
+                
+                                <div class="form-group mb-3">
+                                    <label for="password">Password</label>
+                                    <div class="input-group">
+                                        <input type="password" class="form-control" name="password" id="password" placeholder="Enter your password" required>
+                                        <button type="button" class="input-group-text" id="togglePassword">
+                                            <i class="fa fa-eye" id="eyeIcon"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                
+                                <div class="form-group mb-3">
+                                    <input type="checkbox" id="terms-student" required>
+                                    <label for="terms-student">By Signing up, you agree to our <a href="/terms&condition">Terms & Conditions</a></label>
+                                </div>
+                
+                                <p class="text-center">
+                                    If you don't have an account, <a href="/register" style="text-decoration: none;"><b>Sign Up</b></a>
+                                </p>
+                
+                                <p class="text-center">
+                                    <a href="/changepassword" style="text-decoration: none;"><b>Forgot Password?</b></a>
+                                </p>
+                
+                                <button type="submit" class="btn btn-primary w-100">Login</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                
+                <script>
+                    document.getElementById("togglePassword").addEventListener("click", function () {
+                        var passwordField = document.getElementById("password");
+                        var eyeIcon = document.getElementById("eyeIcon");
+                
+                        if (passwordField.type === "password") {
+                            passwordField.type = "text";
+                            eyeIcon.classList.remove("fa-eye");
+                            eyeIcon.classList.add("fa-eye-slash");
+                        } else {
+                            passwordField.type = "password";
+                            eyeIcon.classList.remove("fa-eye-slash");
+                            eyeIcon.classList.add("fa-eye");
+                        }
+                    });
+                </script>
+                
+                <!-- Font Awesome for Eye Icon -->
+                <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js"></script>
+                
+        </main>
+        
+            
+            
+            
+
+        <footer class="site-footer section-padding">
+            <div class="container">
+                <div class="row">
+        
+                    <div class="col-lg-3 col-12 mb-4 pb-2">
+                        <a class="navbar-brand mb-2" href="/">
+                            <img src="/user/images/logo.jpg" style="height:100px; border-radius:50px;" alt="logo">
+                        </a>
+                    </div>
+        
+                    <div class="col-lg-3 col-md-4 col-6">
+                        <h6 class="site-footer-title mb-3">Resources</h6>
+        
+                        <ul class="site-footer-links">
+                            <li class="site-footer-link-item">
+                                <a href="/" class="site-footer-link">Home</a>
+                            </li>
+        
+                            <li class="site-footer-link-item"><a  href="/terms&condition" class="site-footer-link">Terms and conditions</a></li>
+                            <li class="site-footer-link-item"><a  href="/privacypolicy" class="site-footer-link">Privacy Policy</a></li>
+                            <li class="site-footer-link-item"><a  href="/listingoftutor" class="site-footer-link">I Need A Tutor</a></li>
+                            <li class="site-footer-link-item"><a  href="/listingofstudent" class="site-footer-link">I Need A Tution</a></li>
+        
+        
+                            
+                        </ul>
+                    </div>
+        
+                    <div class="col-lg-3 col-md-4 col-6 mb-4 mb-lg-0">
+                        <h6 class="site-footer-title mb-3">Tutors of city</h6>
+        
+                        <p class="text-white d-flex mb-1">
+                            <a href="#" class="site-footer-link">
+                                Delhi
+                            </a>
+                        </p>
+        
+                        <p class="text-white d-flex mb-1">
+                            <a href="#" class="site-footer-link">
+                                Noida
+                            </a>
+                        </p>
+                        <p class="text-white d-flex mb-1">
+                            <a href="#" class="site-footer-link">
+                                Gurugram
+                            </a>
+                        </p>
+                        <p class="text-white d-flex mb-1">
+                            <a href="#" class="site-footer-link">
+                                Faridabad
+                            </a>
+                        </p>
+                    </div>
+        
+        
+                    <div class="col-lg-3 col-md-4 col-6 mb-4 mb-lg-0">
+                        <h6 class="site-footer-title mb-3">Information</h6>
+        
+                        <p class="text-white d-flex mb-1">
+                            <a href="tel: 305-240-9671" class="site-footer-link">
+                                305-240-9671
+                            </a>
+                        </p>
+        
+                        <p class="text-white d-flex">
+                            <a href="mailto:besthometutor7@gmail.com" class="site-footer-link">
+                                besthometutor7@gmail.com
+                            </a>
+                        </p>
+                    </div>
+        
+                    
+        
+                </div>
+            </div>
+            
+        </footer>
+        <div class="text-center p-3" style="background-color: #437eff">
+            © 2025 Copyright:
+            <a class="text-white" href="https://digitalstart.in/"
+              >DigitalStart</a
+            >
+          </div>
+            
+          <!-- End of .container -->
+<!-- Bootstrap Toast Container -->
+<div class="toast-container position-fixed top-0 end-0 p-3">
+    <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast-header">
+            <strong id="toastTitle" class="me-auto"></strong>
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+        <div id="toastBody" class="toast-body"></div>
+    </div>
+</div>
+
+
+
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
+          <!-- JAVASCRIPT FILES -->
+          <script src="/user/js/jquery.min.js"></script>
+          <script src="/user/js/bootstrap.bundle.min.js"></script>
+          <script src="/user/js/jquery.sticky.js"></script>
+          <script src="/user/js/click-scroll.js"></script>
+          <script src="/user/js/custom.js"></script>
+        
+         </body>
+        </html>

@@ -1,0 +1,622 @@
+
+<%- include('layout/navbar') %>
+<%- include('layout/header') %>
+
+
+        
+
+<!-- Main Section -->
+<!-- Main Section -->
+<div class="container py-2">
+    <div class="text-center mb-4">
+        <h2 style="font-weight: 800; color: #0d436c;">Connecting Students with the Best Tutors – Learn & Grow Together! <hr></h2>
+    </div>
+    
+    <div class="row justify-content-center  g-4">
+        <!-- Image Section -->
+        <% if(user.role == "student"){ %>
+        <div class="col text-center ">
+           
+           
+            <div class="reg-instruction mx-auto p-3 bg-light rounded shadow-sm" style="max-width: 700px; text-align: left; font-size: 0.9rem;">
+                <ul class="premium-money-points">
+                    <% matterListStudent.forEach(item => { %>
+                      <li>
+                        <strong style="color: blue;"><%= item.title %> :</strong> <br />
+                        <%= item.description %>
+                      </li>
+                    <% }) %>
+                  </ul>
+            </div>
+            
+            
+            
+            
+            
+            <!-- 🔹 Add This CSS -->
+            
+                                
+                                
+          
+        </div>
+      
+        <!-- Form Section -->
+        <div class="col-md-5">
+            <div class="p-4 shadow-sm border rounded" style="background-color: white; border-color: #0d436c;">
+                <h4 class="text-center text-warning mb-3">Please Enter Tutor Requirements</h4>
+                <!--  -->
+                <!-- for tution -->
+                <div class="container mt-3">
+                    <% if (message) { %>
+                        <div class="alert alert-<%= message.type %> alert-dismissible fade show" role="alert">
+                            <%= message.text %>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    <% } %>
+                </div>
+                
+                <form action="/requirment/registration" method="post">
+                    <input type="hidden" name="userId" value="<%= user._id %>"> 
+                
+                    <!-- Tuition Location -->
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Preferance <span class="text-warning">*</span></label>
+                        <div class="d-flex flex-wrap gap-3">
+                            <div class="form-check">
+                                <input class="form-check-input" name="tuitionLocation[]" type="checkbox" id="home" value="Student's Home">
+                                <label class="form-check-label" for="home">Student's Home</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" name="tuitionLocation[]" type="checkbox" id="tutorHome" value="Tutor's Home">
+                                <label class="form-check-label" for="tutorHome">Tutor's Home</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" name="tuitionLocation[]" type="checkbox" id="institute" value="Institute">
+                                <label class="form-check-label" for="institute">Institute</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" name="tuitionLocation[]" type="checkbox" id="online" value="Online">
+                                <label class="form-check-label" for="online">Online</label>
+                            </div>
+                        </div>
+                    </div>
+                
+                    <!-- Preferred Time -->
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Preferred Time <span class="text-warning">*</span></label>
+                        <div class="d-flex flex-wrap gap-3">
+                            <div class="form-check">
+                                <input class="form-check-input" name="preferredTime[]" type="checkbox" id="morning" value="Morning">
+                                <label class="form-check-label" for="morning">Morning</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" name="preferredTime[]" type="checkbox" id="afternoon" value="Afternoon">
+                                <label class="form-check-label" for="afternoon">Afternoon</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" name="preferredTime[]" type="checkbox" id="evening" value="Evening">
+                                <label class="form-check-label" for="evening">Evening</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" name="preferredTime[]" type="checkbox" id="anytime" value="Anytime">
+                                <label class="form-check-label" for="anytime">Anytime</label>
+                            </div>
+                        </div>
+                    </div>
+                
+                    <!-- Preferred Tutor -->
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Preferred Tutor <span class="text-warning">*</span></label>
+                        <div class="d-flex flex-wrap gap-3">
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="preferredTutor" id="male" value="Male">
+                                <label class="form-check-label" for="male">Male</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="preferredTutor" id="female" value="Female">
+                                <label class="form-check-label" for="female">Female</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="preferredTutor" id="any" value="Any">
+                                <label class="form-check-label" for="any">Any</label>
+                            </div>
+                        </div>
+                        <div class="mb-3 col-md-6">
+                            <label class="form-label fw-bold">Board <span class="text-warning">*</span></label>
+                            <input type="text" class="form-control" name="board" placeholder="Enter Your Board" required>
+                        </div>
+                    </div>
+                
+                    <!-- Subject & Class -->
+                    <div class="row mb-3">
+                        <div class="mb-3 col-md-6">
+                            <label class="form-label fw-bold">Subject (using',') <span class="text-warning">*</span></label>
+                            <input type="text" class="form-control" name="subject" placeholder="Enter Subject" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold">Class <span class="text-warning">*</span></label>
+                            <select class="form-control" name="class" required>
+                                <option value="" disabled selected>Select Class/Grade</option>
+                                <% for (let i = 1; i <= 12; i++) { %>
+                                    <option value="<%= i %>">Class <%= i %></option>
+                                <% } %>
+                            </select>
+                        </div>
+                        
+                    </div>
+                    
+                
+                   
+                    <!-- State & City -->
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold">State/UT <span class="text-warning">*</span></label>
+                            <select class="form-select" name="state" required>
+                                <option value="" disabled selected>Select State/UT</option>
+                                
+                                <!-- Indian States -->
+                                <option value="andhra pradesh">Andhra Pradesh</option>
+                                <option value="arunachal pradesh">Arunachal Pradesh</option>
+                                <option value="assam">Assam</option>
+                                <option value="bihar">Bihar</option>
+                                <option value="chhattisgarh">Chhattisgarh</option>
+                                <option value="goa">Goa</option>
+                                <option value="gujarat">Gujarat</option>
+                                <option value="haryana">Haryana</option>
+                                <option value="himachal pradesh">Himachal Pradesh</option>
+                                <option value="jharkhand">Jharkhand</option>
+                                <option value="karnataka">Karnataka</option>
+                                <option value="kerala">Kerala</option>
+                                <option value="madhya pradesh">Madhya Pradesh</option>
+                                <option value="maharashtra">Maharashtra</option>
+                                <option value="manipur">Manipur</option>
+                                <option value="meghalaya">Meghalaya</option>
+                                <option value="mizoram">Mizoram</option>
+                                <option value="nagaland">Nagaland</option>
+                                <option value="odisha">Odisha</option>
+                                <option value="punjab">Punjab</option>
+                                <option value="rajasthan">Rajasthan</option>
+                                <option value="sikkim">Sikkim</option>
+                                <option value="tamil nadu">Tamil Nadu</option>
+                                <option value="telangana">Telangana</option>
+                                <option value="tripura">Tripura</option>
+                                <option value="uttar pradesh">Uttar Pradesh</option>
+                                <option value="uttarakhand">Uttarakhand</option>
+                                <option value="west bengal">West Bengal</option>
+                    
+                                <!-- Indian Union Territories (UTs) -->
+                                <option value="andaman and nicobar islands">Andaman and Nicobar Islands</option>
+                                <option value="chandigarh">Chandigarh</option>
+                                <option value="dadra and nagar haveli and daman and diu">Dadra and Nagar Haveli and Daman and Diu</option>
+                                <option value="delhi">Delhi</option>
+                                <option value="jammu and kashmir">Jammu and Kashmir</option>
+                                <option value="ladakh">Ladakh</option>
+                                <option value="lakshadweep">Lakshadweep</option>
+                                <option value="puducherry">Puducherry</option>
+                            </select>
+                        </div>
+                    
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold">City <span class="text-warning">*</span></label>
+                            <input type="text" class="form-control" name="city" placeholder="Enter City" required>
+                        </div>
+                    </div>
+                    
+                
+                    <!-- Pincode & Locality -->
+                    <div class="row mb-4">
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold">Pincode <span class="text-warning">*</span></label>
+                            <input type="number" class="form-control" name="pincode" placeholder="Enter Pincode" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold">Locality <span class="text-warning">*</span></label>
+                            <input type="text" class="form-control" name="locality" placeholder="Enter Locality" required 
+                                   pattern="[A-Za-z\s]+" 
+                                   title="Only letters and spaces are allowed"
+                                   oninput="this.value = this.value.replace(/[0-9]/g, '')">
+                        </div>
+                        
+                    </div>
+                
+                    <!-- Submit Button -->
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-warning fw-bold px-4 py-2">SUBMIT</button>
+                    </div>
+                </form>
+                
+                <!-- for tutor -->
+              <!-- Success Modal -->
+<div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title text-success" id="successModalLabel">Success</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Your registration has been submitted successfully!
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">OK</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    document.getElementById("registrationForm").addEventListener("submit", function (event) {
+        event.preventDefault(); // Prevent default form submission
+
+        const formData = new FormData(this);
+
+        fetch(this.action, {
+            method: "POST",
+            body: formData
+        })
+        .then(response => response.json()) // Expecting JSON response
+        .then(data => {
+            if (data.success) {
+                var successModal = new bootstrap.Modal(document.getElementById('successModal'));
+                successModal.show();
+                document.getElementById("registrationForm").reset(); // Reset form after success
+            } else {
+                alert("Error: " + data.message);
+            }
+        })
+        .catch(error => console.error("Error:", error));
+    });
+});
+</script>
+                
+                
+            </div>
+        </div>
+        <% }else{ %>
+            <div class="col text-center d-flex justify-content-center p-3">
+                <div class="reg-instruction p-3 bg-light rounded shadow-sm" style="max-width: 700px; width: 100%;">
+                    <ul class="list-unstyled text-start m-0" style="font-size: 1rem; line-height: 1.6;">
+                        <% matterListTutor.forEach(item => { %>
+                          <li>
+                            <strong class="text-success"><%= item.title %> :</strong><br />
+                            <%= item.description %>
+                          </li>
+                        <% }) %>
+                      </ul>
+                    
+                </div>
+            </div>
+            
+            
+        <div class="col-md-6">
+            <div class="p-4 shadow-sm border rounded" style="background-color: white; border-color: #0d436c;">
+                <h4 class="text-center text-warning mb-3">Please Enter Students Requirements</h4>
+                
+                <!-- for tution -->
+                <div class="container mt-3">
+                    <% if (message) { %>
+                        <div class="alert alert-<%= message.type %> alert-dismissible fade show" role="alert">
+                            <%= message.text %>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    <% } %>
+                </div>
+                <form action="/requirment/tutor/registration" method="post" enctype="multipart/form-data">
+                    <input type="hidden" name="userId" value="<%= user._id %>"> 
+                
+                    <!-- Tuition Location -->
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Preferance <span class="text-warning">*</span></label>
+                        <div class="d-flex flex-wrap gap-3">
+                            <div class="form-check">
+                                <input class="form-check-input" name="tuitionLocation[]" type="checkbox" id="home" value="Student's Home">
+                                <label class="form-check-label" for="home">Student's Home</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" name="tuitionLocation[]" type="checkbox" id="tutorHome" value="Tutor's Home">
+                                <label class="form-check-label" for="tutorHome">Tutor's Home</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" name="tuitionLocation[]" type="checkbox" id="institute" value="Institute">
+                                <label class="form-check-label" for="institute">Institute</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" name="tuitionLocation[]" type="checkbox" id="online" value="Online">
+                                <label class="form-check-label" for="online">Online</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <input type="text" class="form-control" name="about" placeholder="about myself">
+                    </div>
+                
+                    <!-- Preferred Time -->
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Preferred Time <span class="text-warning">*</span></label>
+                        <div class="d-flex flex-wrap gap-3">
+                            <div class="form-check">
+                                <input class="form-check-input" name="preferredTime[]" type="checkbox" id="morning" value="Morning">
+                                <label class="form-check-label" for="morning">Morning</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" name="preferredTime[]" type="checkbox" id="afternoon" value="Afternoon">
+                                <label class="form-check-label" for="afternoon">Afternoon</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" name="preferredTime[]" type="checkbox" id="evening" value="Evening">
+                                <label class="form-check-label" for="evening">Evening</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" name="preferredTime[]" type="checkbox" id="anytime" value="Anytime">
+                                <label class="form-check-label" for="anytime">Anytime</label>
+                            </div>
+                        </div>
+                    </div>
+                
+                    
+                   
+                
+                    <!-- Experiance -->
+                    <div class="mb-3 row">
+                        <div class="col-md-5">
+                        <label class="form-label fw-bold">Experiance :(Years) <span class="text-warning">*</span></label>
+                            <input type="number" class="form-control" name="experience" placeholder="Enter Experiance" required>
+                        </div>
+                        <div class="col-md-5">
+                            <label class="form-label fw-bold">Qualification :<span class="text-warning">*</span></label>
+                            <input type="text" class="form-control" name="qualification" placeholder="Enter Class/Grade" required>
+                        </div>
+                        <div class="col-md-2">
+                            <label class="form-label fw-bold">Your Age :<span class="text-warning">*</span></label>
+                            <input type="number" class="form-control" name="age" placeholder="Enter Year" required>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Gender: <span class="text-warning">*</span></label>
+                        <div class="d-flex flex-wrap gap-3">
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="preferredTutor" id="male" value="Male">
+                                <label class="form-check-label" for="male">Male</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="preferredTutor" id="female" value="Female">
+                                <label class="form-check-label" for="female">Female</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="preferredTutor" id="any" value="Any">
+                                <label class="form-check-label" for="any">Any</label>
+                            </div>
+                        </div>
+                        
+                    </div>
+                
+                    <!-- Subject & Class -->
+
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold">Subject (Using ",") <span class="text-warning">*</span></label>
+                            <input type="text" class="form-control" name="subject" placeholder="Enter Subject" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold">Class <span class="text-warning">*</span></label>
+                            <div id="classContainer">
+                                <div class="class-group">
+                                    <select class="form-control" name="class[]" required>
+                                        <option value="" disabled selected>Select Class/Grade</option>
+                                        <% for (let i = 1; i <= 12; i++) { %>
+                                            <option value="<%= i %>">Class <%= i %></option>
+                                        <% } %>
+                                    </select>
+                                    <button type="button" class="btn btn-sm btn-danger remove-class d-none">✖</button>
+                                </div>
+                            </div>
+                            <button type="button" class="btn btn-sm btn-primary mt-2" id="addClassBtn">+ Add Another Class</button>
+                        </div>
+<script>document.addEventListener("DOMContentLoaded", function () {
+    const addClassBtn = document.getElementById("addClassBtn");
+    const classContainer = document.getElementById("classContainer");
+
+    addClassBtn.addEventListener("click", function () {
+        const newClassGroup = document.createElement("div");
+        newClassGroup.classList.add("class-group", "mt-2");
+
+        newClassGroup.innerHTML = `
+            <select class="form-control" name="class[]" required>
+                <option value="" disabled selected>Select Class/Grade</option>
+                ${Array.from({ length: 12 }, (_, i) => `<option value="${i + 1}">Class ${i + 1}</option>`).join("")}
+            </select>
+            <button type="button" class="btn btn-sm btn-danger remove-class">✖</button>
+        `;
+
+        classContainer.appendChild(newClassGroup);
+
+        // Show remove button on additional class fields
+        const removeButtons = document.querySelectorAll(".remove-class");
+        removeButtons.forEach((btn) => btn.classList.remove("d-none"));
+
+        // Attach event to remove button
+        newClassGroup.querySelector(".remove-class").addEventListener("click", function () {
+            newClassGroup.remove();
+            if (classContainer.childElementCount === 1) {
+                document.querySelector(".remove-class").classList.add("d-none");
+            }
+        });
+    });
+});
+</script>                        
+                    </div>
+                    
+                
+                   
+                
+                    <!-- State & City -->
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold">State <span class="text-warning">*</span></label>
+                            <select class="form-select" name="state" required>
+                                <option value="" disabled selected>Select State</option>
+                                <option value="andhra pradesh">Andhra Pradesh</option>
+                                <option value="arunachal pradesh">Arunachal Pradesh</option>
+                                <option value="assam">Assam</option>
+                                <option value="bihar">Bihar</option>
+                                <option value="chhattisgarh">Chhattisgarh</option>
+                                <option value="goa">Goa</option>
+                                <option value="gujarat">Gujarat</option>
+                                <option value="haryana">Haryana</option>
+                                <option value="himachal pradesh">Himachal Pradesh</option>
+                                <option value="jharkhand">Jharkhand</option>
+                                <option value="karnataka">Karnataka</option>
+                                <option value="kerala">Kerala</option>
+                                <option value="madhya pradesh">Madhya Pradesh</option>
+                                <option value="maharashtra">Maharashtra</option>
+                                <option value="manipur">Manipur</option>
+                                <option value="meghalaya">Meghalaya</option>
+                                <option value="mizoram">Mizoram</option>
+                                <option value="nagaland">Nagaland</option>
+                                <option value="odisha">Odisha</option>
+                                <option value="punjab">Punjab</option>
+                                <option value="rajasthan">Rajasthan</option>
+                                <option value="sikkim">Sikkim</option>
+                                <option value="tamil nadu">Tamil Nadu</option>
+                                <option value="telangana">Telangana</option>
+                                <option value="tripura">Tripura</option>
+                                <option value="uttar pradesh">Uttar Pradesh</option>
+                                <option value="uttarakhand">Uttarakhand</option>
+                                <option value="west bengal">West Bengal</option>
+                            </select>
+                            
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold">City <span class="text-warning">*</span></label>
+                            <input type="text" class="form-control" name="city" placeholder="Enter City" required>
+                        </div>
+                    </div>
+                
+                    <!-- Pincode & Locality -->
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold">Pincode <span class="text-warning">*</span></label>
+                            <input type="number" class="form-control" name="pincode" placeholder="Enter Pincode" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold">Locality <span class="text-warning">*</span></label>
+                            <input type="text" class="form-control" name="locality" placeholder="Enter Locality" required 
+                                   pattern="[A-Za-z\s]+" 
+                                   title="Only letters and spaces are allowed"
+                                   oninput="this.value = this.value.replace(/[0-9]/g, '')">
+                        </div>
+                        
+                    </div>
+                    <!-- uploade documents -->
+                
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">
+                            Upload Documents (Aadhar & Pancard) <span class="text-warning">*</span>
+                        </label>
+                    
+                        <!-- File Input -->
+                        <label for="fileInput">Select exactly 2 files (jpg, png, jpeg, or webp) (max 10MB total)</label>
+                        <input type="file" name="attachedFiles" id="fileInput" multiple accept="image/*" required>
+                        <small id="fileError" class="text-danger"></small>
+                    </div>
+                    
+                    <!-- Submit Button -->
+                    <div class="text-center">
+                        <button type="submit" id="submitBtn" class="btn btn-warning fw-bold px-4 py-2" disabled>SUBMIT</button>
+                    </div>
+                    
+                    <!-- JavaScript Validation -->
+                    <script>
+                        document.addEventListener("DOMContentLoaded", function () {
+                            const fileInput = document.getElementById("fileInput");
+                            const errorMsg = document.getElementById("fileError");
+                            const submitBtn = document.getElementById("submitBtn");
+                    
+                            fileInput.addEventListener("change", function () {
+                                const files = fileInput.files;
+                                const allowedExtensions = /\.(jpg|jpeg|png|webp)$/i;
+                                let valid = true;
+                                let totalSize = 0;
+                    
+                                // Check if exactly 2 files are selected
+                                if (files.length !== 2) {
+                                    errorMsg.textContent = "Please select exactly 2 image files.";
+                                    valid = false;
+                                } else {
+                                    for (let file of files) {
+                                        if (!allowedExtensions.test(file.name)) {
+                                            errorMsg.textContent = "Only image files are allowed (JPG, PNG, JPEG, WEBP).";
+                                            valid = false;
+                                            break;
+                                        }
+                                        totalSize += file.size; // Accumulate total file size
+                                    }
+                    
+                                    // Check total file size (should not exceed 2MB)
+                                    if (totalSize > 10 * 1024 * 1024) {
+                                        errorMsg.textContent = "Total file size must not exceed 2MB.";
+                                        valid = false;
+                                    }
+                                }
+                    
+                                submitBtn.disabled = !valid;
+                                if (valid) errorMsg.textContent = ""; // Clear error if valid
+                            });
+                        });
+                    </script>
+                    
+                    
+                    
+                    
+                    
+                </form>
+                
+                <!-- Toast Notification -->
+                <div class="toast-container position-fixed bottom-0 end-0 p-3">
+                    <div id="uploadToast" class="toast align-items-center text-bg-danger border-0" role="alert" aria-live="assertive" aria-atomic="true">
+                        <div class="d-flex">
+                            <div class="toast-body" id="toastMessage">Multer error message here!</div>
+                            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+                        </div>
+                    </div>
+                </div>
+                
+               
+                
+                <!-- for tutor -->
+                
+                
+            </div>
+        </div>
+        <% } %>
+    </div>
+</div>
+
+</div>
+<script>
+   document.addEventListener("DOMContentLoaded", function () {
+        const studentRadio = document.getElementById("tuition-reg-student");
+        const tutorRadio = document.getElementById("tuition-reg-tutor");
+        const studentForm = document.getElementById("tuition-reg-studentForm");
+        const tutorForm = document.getElementById("tuition-reg-tutorForm");
+
+        function toggleForm() {
+            if (studentRadio.checked) {
+                studentForm.classList.add("tuition-reg-active");
+                tutorForm.classList.remove("tuition-reg-active");
+            } else {
+                tutorForm.classList.add("tuition-reg-active");
+                studentForm.classList.remove("tuition-reg-active");
+            }
+        }
+
+        studentRadio.addEventListener("change", toggleForm);
+        tutorRadio.addEventListener("change", toggleForm);
+    });
+</script>
+
+
+<!-- end main -->
+<!-- Footer -->
+<%- include('layout/footer') %>

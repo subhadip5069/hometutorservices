@@ -1,0 +1,188 @@
+<%- include('partial/header') %>
+
+<style>
+    body {
+        background: #f4f4f4;
+        font-family: Arial, sans-serif;
+    }
+    .form-container {
+        background: white;
+        padding: 30px;
+        border-radius: 12px;
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+        max-width: 600px;
+        width: 100%;
+        margin-bottom: 20px;
+    }
+    .form-label {
+        font-weight: 600;
+        color: #333;
+    }
+    .form-control {
+        border-radius: 8px;
+        border: 1px solid #ddd;
+    }
+    .btn-primary {
+        background: #ff7e5f;
+        border: none;
+        padding: 10px;
+        border-radius: 8px;
+    }
+    .btn-primary:hover {
+        background: #e06a50;
+    }
+    .btn-secondary {
+        background: #4a90e2;
+        border: none;
+        padding: 8px;
+        border-radius: 8px;
+    }
+    .btn-secondary:hover {
+        background: #3b7ac9;
+    }
+</style>
+
+<div style="height: 10vh;"></div>
+
+<section class="d-flex flex-column align-items-center min-vh-100">
+    <h2 class="text-center mb-4">Registration Matter</h2>
+
+    <!-- Status Selection -->
+    <div class="form-container">
+        <label class="form-label">Select Role</label>
+        <select class="form-control" id="statusSelect">
+            <option value="student" <%= data && data.status === "student" ? "selected" : "" %>>Student</option>
+            <option value="tutor" <%= data && data.status === "tutor" ? "selected" : "" %>>Tutor</option>
+        </select>
+    </div>
+
+    <!-- Student Form -->
+    <div class="form-container" id="studentForm" style="display: none;">
+        <h4 class="text-center">Student Registration</h4>
+        <form id="studentRegistrationForm">
+            <div id="studentMatterList">
+                <% if (data && data.Studentmatter) { %>
+                    <% data.Studentmatter.forEach((item) => { %>
+                        <div class="mb-3 matter-item p-3 border rounded">
+                            <label class="form-label">Title</label>
+                            <input type="text" class="form-control" name="title" value="<%= item.title %>" required>
+                            <label class="form-label mt-2">Description</label>
+                            <textarea class="form-control" name="description" required><%= item.description %></textarea>
+                            <button type="button" class="btn btn-danger btn-sm remove-matter mt-2">Remove</button>
+                        </div>
+                    <% }); %>
+                <% } %>
+            </div>
+            <button type="button" class="btn btn-secondary w-100 mb-3" id="addStudentMatter">➕ Add More</button>
+            <button type="submit" class="btn btn-primary w-100">✅ Update Student Matter</button>
+        </form>
+    </div>
+
+    <!-- Tutor Form -->
+    <div class="form-container" id="tutorForm" style="display: none;">
+        <h4 class="text-center">Tutor Registration</h4>
+        <form id="tutorRegistrationForm">
+            <div id="tutorMatterList">
+                <% if (data && data.tutormatter) { %>
+                    <% data.tutormatter.forEach((item) => { %>
+                        <div class="mb-3 matter-item p-3 border rounded">
+                            <label class="form-label">Title</label>
+                            <input type="text" class="form-control" name="title" value="<%= item.title %>" required>
+                            <label class="form-label mt-2">Description</label>
+                            <textarea class="form-control" name="description" required><%= item.description %></textarea>
+                            <button type="button" class="btn btn-danger btn-sm remove-matter mt-2">Remove</button>
+                        </div>
+                    <% }); %>
+                <% } %>
+            </div>
+            <button type="button" class="btn btn-secondary w-100 mb-3" id="addTutorMatter">➕ Add More</button>
+            <button type="submit" class="btn btn-primary w-100">✅ Update Tutor Matter</button>
+        </form>
+    </div>
+
+    <div id="message" class="mt-3"></div>
+</section>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const statusSelect = document.getElementById("statusSelect");
+    const studentForm = document.getElementById("studentForm");
+    const tutorForm = document.getElementById("tutorForm");
+
+    function toggleForms() {
+        const selectedStatus = statusSelect.value;
+        studentForm.style.display = selectedStatus === "student" ? "block" : "none";
+        tutorForm.style.display = selectedStatus === "tutor" ? "block" : "none";
+    }
+
+    // Initialize form visibility
+    toggleForms();
+    statusSelect.addEventListener("change", toggleForms);
+});
+
+// Function to submit forms
+async function submitForm(event, formId, role) {
+    event.preventDefault();
+
+    const matter = [];
+    document.querySelectorAll(`#${formId} .matter-item`).forEach((div) => {
+        matter.push({
+            title: div.querySelector('input[name="title"]').value,
+            description: div.querySelector('textarea[name="description"]').value
+        });
+    });
+
+    const response = await fetch(`/admin/registration/${role}`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ matter })
+    });
+
+    const result = await response.json();
+    document.getElementById("message").innerHTML = 
+        `<div class="alert ${result.success ? 'alert-success' : 'alert-danger'} mt-3">
+            ${result.message}
+        </div>`;
+}
+
+// Attach form submission event listeners
+document.getElementById("studentRegistrationForm").addEventListener("submit", function (event) {
+    submitForm(event, "studentMatterList", "student");
+});
+
+document.getElementById("tutorRegistrationForm").addEventListener("submit", function (event) {
+    submitForm(event, "tutorMatterList", "tutor");
+});
+
+// Add More Fields Functions
+function addMatter(listId) {
+    const matterList = document.getElementById(listId);
+    const newMatter = document.createElement("div");
+    newMatter.classList.add("mb-3", "matter-item", "p-3", "border", "rounded");
+    newMatter.innerHTML = `
+        <label class="form-label">Title</label>
+        <input type="text" class="form-control" name="title" required>
+        <label class="form-label mt-2">Description</label>
+        <textarea class="form-control" name="description" required></textarea>
+        <button type="button" class="btn btn-danger btn-sm remove-matter mt-2">Remove</button>
+    `;
+    matterList.appendChild(newMatter);
+}
+
+document.getElementById("addStudentMatter").addEventListener("click", function () {
+    addMatter("studentMatterList");
+});
+
+document.getElementById("addTutorMatter").addEventListener("click", function () {
+    addMatter("tutorMatterList");
+});
+
+// Remove Matter Fields
+document.addEventListener("click", function (event) {
+    if (event.target.classList.contains("remove-matter")) {
+        event.target.parentElement.remove();
+    }
+});
+</script>
+
+<%- include('partial/footer') %>

@@ -1,0 +1,216 @@
+<%- include('partial/header') %>
+<div style="height: 10vh;"></div>
+
+<section class="container min-vh-100">
+    <h2 class="text-center mb-4">All Active Registrations with Documents</h2>
+    
+    <!-- Search Bar -->
+    <div class="mb-3">
+        <input type="text" id="searchInput" class="form-control" placeholder="Search by Name, ID, or Email">
+    </div>
+    
+    <div class="table-responsive" style="max-height: 700px; overflow-y: auto; overflow-x: auto; white-space: nowrap;">
+        <table class="table table-bordered table-striped text-center" style="min-width: 1200px;">
+            <thead class="table-dark" style="position: sticky; top: 0; z-index: 10;">
+                <tr>
+                    <th>Name</th>
+                    <th>ID</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                    <th>Subject</th>
+                    <th>Refund Contact Credits</th>
+                    <th>Location</th>
+                    <th>Class</th>
+                    <th>About</th>
+                    <th>Document Status</th>
+                    <th>Files</th>
+                </tr>
+            </thead>
+            <tbody id="registrationsTableBody">
+                <% registrations.reverse().forEach(registration => { %>
+                    <tr>
+                        <td><%= registration.userId.name %> <span class="badge bg-success">Active</span></td>
+                        <td><%= registration.userId.randomId %></td>
+                        
+                        <td><%= registration.userId.email %></td>
+                        <td><%= registration.userId.phone %></td>
+                        <td><%= registration.subject || "N/A" %></td>
+    
+                        <!-- Input + Update Button -->
+                        <td>
+                            <form action="/admin/upadteusercontactremaining/<%= registration.userId._id %>" method="POST" class="update-unlock-form">
+                                <div class="input-group">
+                                    <input type="number" class="form-control unlock-input" 
+                                           name="additionalUnlocks"
+                                           placeholder="Enter unlocks" 
+                                           min="1" required />
+                                    <button type="submit" class="btn btn-primary">
+                                        Update
+                                    </button>
+                                </div>
+                            </form>
+                            <p class="text-muted mt-1">Current: <strong><%= registration.userId.unlockedContactsRemaining %></strong></p>
+                        </td>
+    
+                        <td><%= registration.tuitionLocation?.length ? registration.tuitionLocation.join(", ") : "N/A" %></td>
+                        <td><%= registration.class || "N/A" %></td>
+                        <td><%= registration.about || "N/A" %></td>
+    
+                        <td>
+                            <form action="/admin/documentverification/update/<%= registration._id %>?page=<%= currentPage %>" method="POST">
+                                <div class="form-check form-switch">
+                                    <input class="form-check-input" type="checkbox" name="status" value="active" 
+                                           <%= registration.documentVerificationStatus === "active" ? "checked" : "" %> 
+                                           onchange="this.form.submit()">
+                                    <label class="form-check-label">Inactivate</label>
+                                </div>
+                            </form>
+                        </td>
+    
+                        <td>
+                            <% if (registration.attachedFiles.length > 0) { %>
+                                <button class="btn btn-sm btn-primary" type="button" data-bs-toggle="collapse" 
+                                        data-bs-target="#files<%= registration._id %>">
+                                    View Files
+                                </button>
+                                <div class="collapse mt-2" id="files<%= registration._id %>">
+                                    <ul class="list-group">
+                                        <% if (registration.attachedFiles && registration.attachedFiles.length > 0) { %>
+                                            <% registration.attachedFiles.forEach(file => { %>
+                                                <li class="list-group-item">
+                                                    <strong>File Type:</strong> <%= file.fileType %> <br>
+                                    
+                                                    <% 
+                                                        const fileName = file.filePath.replace(/\\/g, '/').split('/').pop();
+                                                        const fileExt = fileName.split('.').pop().toLowerCase();
+                                                        const isImage = ["jpg", "jpeg", "png", "webp", "gif", "bmp", "tiff", "svg", "ico"].includes(fileExt);
+                                                    %>
+                                    
+                                                    <% if (isImage) { %>
+                                                        <!-- Image Preview with Modal on Click -->
+                                                        <img src="/uploads/<%= fileName %>" 
+                                                             alt="Document" class="img-fluid preview-image" 
+                                                             style="max-width: 150px; max-height: 150px; cursor: pointer;" 
+                                                             onclick="openImageModal('/uploads/<%= fileName %>')">
+                                                    <% } else { %>
+                                                        <!-- Download Button for Other Files -->
+                                                        <a href="/uploads/<%= fileName %>" download="<%= fileName %>" class="btn btn-primary btn-sm">
+                                                            <i class="fas fa-download"></i> Download File
+                                                        </a>
+                                                    <% } %>
+                                                </li>
+                                            <% }); %>
+                                        <% } else { %>
+                                            <li class="list-group-item">No files attached.</li>
+                                        <% } %>
+                                    </ul>
+                                    
+                                    <!-- Image Modal -->
+                                    <div id="imageModal" class="modal" onclick="closeImageModal()">
+                                        <span class="close">&times;</span>
+                                        <img class="modal-content" id="modalImg">
+                                    </div>
+                                    
+                                    <!-- JavaScript for Image Modal & File Download -->
+                                    <script>
+                                        function openImageModal(src) {
+                                            document.getElementById("imageModal").style.display = "block";
+                                            document.getElementById("modalImg").src = src;
+                                        }
+                                    
+                                        function closeImageModal() {
+                                            document.getElementById("imageModal").style.display = "none";
+                                        }
+                                    </script>
+                                    
+                                    <!-- CSS for Modal -->
+                                    <style>
+                                        .modal {
+                                            display: none;
+                                            position: fixed;
+                                            z-index: 1000;
+                                            left: 0;
+                                            top: 0;
+                                            width: 100%;
+                                            height: 100%;
+                                            overflow: auto;
+                                            background-color: rgba(0, 0, 0, 0.7);
+                                        }
+                                        .modal-content {
+                                            margin: auto;
+                                            display: block;
+                                            max-width: 80%;
+                                            max-height: 80%;
+                                        }
+                                        .close {
+                                            position: absolute;
+                                            top: 15px;
+                                            right: 25px;
+                                            color: white;
+                                            font-size: 35px;
+                                            font-weight: bold;
+                                            cursor: pointer;
+                                        }
+                                    </style>
+                                    
+                                    
+                                </div>
+                            <% } else { %>
+                                <p class="text-muted">No attached files</p>
+                            <% } %>
+                        </td>
+                    </tr>
+                <% }); %>
+            </tbody>
+        </table>
+    </div>
+    
+    
+    
+    
+    <!-- Pagination -->
+    <% if (totalPages > 1) { %>
+        <nav aria-label="Page navigation">
+            <ul class="pagination justify-content-center mt-4">
+                <% if (currentPage > 1) { %>
+                    <li class="page-item">
+                        <a class="page-link" href="?page=<%= currentPage - 1 %>">Previous</a>
+                    </li>
+                <% } %>
+                <% for (let i = 1; i <= totalPages; i++) { %>
+                    <li class="page-item <%= i === currentPage ? 'active' : '' %>">
+                        <a class="page-link" href="?page=<%= i %>"><%= i %></a>
+                    </li>
+                <% } %>
+                <% if (currentPage < totalPages) { %>
+                    <li class="page-item">
+                        <a class="page-link" href="?page=<%= currentPage + 1 %>">Next</a>
+                    </li>
+                <% } %>
+            </ul>
+        </nav>
+    <% } %>
+    
+    <div style="height: 50px; background-color: transparent;"></div>
+</section>
+
+<script>
+    document.getElementById("searchInput").addEventListener("input", function () {
+        let filter = this.value.toLowerCase();
+        let rows = document.querySelectorAll("#registrationsTableBody tr");
+
+        rows.forEach(row => {
+            let name = row.cells[0].innerText.toLowerCase();
+            let id = row.cells[1].innerText.toLowerCase();
+            let email = row.cells[2].innerText.toLowerCase();
+            
+            if (name.includes(filter) || id.includes(filter) || email.includes(filter)) {
+                row.style.display = "";
+            } else {
+                row.style.display = "none";
+            }
+        });
+    });
+</script>
+
+<%- include('partial/footer') %>
