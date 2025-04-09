@@ -526,13 +526,13 @@ class userPagesController {
                 pincode = "",
                 priceRange = "",
                 page = "1",
-                limit = "15",
+                limit = "25",
                 searchQuery = ""
             } = req.query;
     
             // Convert numeric values
             page = parseInt(page) || 1;
-            limit = parseInt(limit) || 15;
+            limit = parseInt(limit) || 25;
             const skip = (page - 1) * limit;
     
             // Define the filter for active tutors
@@ -714,7 +714,7 @@ class userPagesController {
                 pincode = "",
                 priceRange = "",
                 page = "1",
-                limit = "15",
+                limit = "25",
                 searchQuery = ""
             } = req.query;
     
@@ -886,7 +886,7 @@ class userPagesController {
             // Extract filters from query parameters
             let { classFilter, subjectFilter, gender, state, city, pincode, minPrice, maxPrice, page } = req.query;
             page = parseInt(page) || 1;
-            let limit = 5;
+            let limit = 20;
             let skip = (page - 1) * limit;
     
             // Construct filter object
@@ -965,7 +965,7 @@ class userPagesController {
             } = req.query;
     
             page = parseInt(page);
-            let limit = 5;
+            let limit = 20;
             let skip = (page - 1) * limit;
     
             // ✅ Build User Filter
@@ -1125,7 +1125,7 @@ class userPagesController {
     
             // Pagination setup
             const page = parseInt(req.query.page) || 1;
-            const limit = parseInt(req.query.limit) || 3;
+            const limit = parseInt(req.query.limit) || 20;
             const skip = (page - 1) * limit;
     
             // Convert unlocked student/tutor IDs into ObjectId array
@@ -1271,13 +1271,13 @@ class userPagesController {
                 pincode = "",
                 priceRange = "",
                 page = "1",
-                limit = "15",
+                limit = "25",
                 searchQuery = ""
             } = req.query;
     
             // Convert numeric values
             page = parseInt(page) || 1;
-            limit = parseInt(limit) || 15;
+            limit = parseInt(limit) || 25;
             const skip = (page - 1) * limit;
     
             // Define the filter for active tutors
@@ -1443,7 +1443,7 @@ class userPagesController {
                 pincode,
                 priceRange,
                 page = 1,
-                limit = 21,
+                limit = 25,
                 searchQuery
             } = req.query;
     
